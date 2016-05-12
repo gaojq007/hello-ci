@@ -1,2 +1,2 @@
-FROM golang:1.5.3
+FROM busybox:latest
 CMD /bin/echo 'Hello world'
