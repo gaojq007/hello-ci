@@ -7,7 +7,7 @@ integration:
     - CGO_ENABLED=0
   commands:
     - go run main.go
-postbuild:
+post_build:
   image: golang:1.5.3
   environment:
     - GO15VENDOREXPERIMENT=1
