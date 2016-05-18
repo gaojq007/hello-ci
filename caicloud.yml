@@ -1,5 +1,7 @@
 integration:
   image: golang:1.5.3
+  volumes:
+    - .:/go/github.com/xiaomuqiao/hello-ci
   environment:
     - GO15VENDOREXPERIMENT=1
     - GOOS=linux
@@ -9,6 +11,8 @@ integration:
     - go run main.go
 post_build:
   image: golang:1.5.3
+  volumes:
+    - .:/go/github.com/xiaomuqiao/hello-ci
   environment:
     - GO15VENDOREXPERIMENT=1
     - GOOS=linux
