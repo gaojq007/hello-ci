@@ -8,7 +8,7 @@ integration:
   commands:
     - go run main.go
 post_build:
-  image: golang:l.5.3
+  image: golang:1.5.3
   volumes:
     - .:/go/github.com/xiaomuqiao/hello-ci
   environment:
