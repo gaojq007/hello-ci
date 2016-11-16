@@ -1,5 +1,5 @@
 integration:
-  image: golang:1.5.3
+  image: cargo.caicloud.io/caicloud/golang:1.6
   environment:
     - GO15VENDOREXPERIMENT=1
     - GOOS=linux
@@ -7,12 +7,6 @@ integration:
     - CGO_ENABLED=0
   commands:
     - go run main.go
-post_build:
-  image: golang:1.5.3
-  environment:
-    - GO15VENDOREXPERIMENT=1
-    - GOOS=linux
-    - GOARCH=amd64
-    - CGO_ENABLED=0
-  commands:
-    - go run main.go
+    
+build:
+   dockerfile_name: Dockerfile
