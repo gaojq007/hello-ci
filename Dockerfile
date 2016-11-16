@@ -1,4 +1,4 @@
-FROM golang:1.5.3
+FROM cargo.caicloud.io/caicloud/golang:1.6
 
 ADD . /
 RUN echo "gao"
