@@ -1,80 +1,468 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
 
-# gaojq007
+HOST: http://api.caicloud.io/
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+# Cyclone
 
-## Questions Collection [/questions]
+Cyclone is a cloud native CI/CD platform built for container workflow.
 
-### List All Questions [GET]
+# Group Jobs Management
+
+Jobs Management (CRUD)
+
+## Collection [/users/{user_id}/jobs]
+
+### List all jobs [GET]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
 
 + Response 200 (application/json)
 
-        [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "jobs": [
                     {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
+                        "_id": "string",
+                        "user_id": "string",
+                        "deploy_id": "string",
+                        "name": "string",
+                        . . .
+                    },
+                    {
+                        "_id": "string",
+                        "user_id": "string",
+                        "deploy_id": "string",
+                        "name": "string",
+                        . . .
+                    },  
                 ]
             }
-        ]
 
-### Create a New Question [POST]
+### Create new job [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
 
 + Request (application/json)
+ 
+            {
+                "user_id": "string",
+                "deploy_id": "string",
+                "name": "string",
+                "username": "string",
+                "description": "string",
+                "build_path": "string",
+                . . .
+            }
 
++ Response 202 (application/json)
+ 
+     + Headers
+ 
+     + Body
+ 
+             {
+                 "id": "string"
+             }
+ 
++ Response 409 (application/json)
+ 
+     + Body
+             
+             {
+                 "message": "string"
+             }
+
+## Element [/users/{user_id}/jobs/{job_id}]
+ 
+### Get a specific job info with job id and user id [GET]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+    + job_id:`1` (number, required) - ID of the job in the form of an integer
+
++ Response 200 (application/json)
+ 
+         {
+            "_id": "string",
+            "user_id": "string",
+            "deploy_id": "string",
+            "name": "string",
+             ...
+         }
+ 
++ Response 404 (application/json)
+ 
+         {
+             "message": "string"
+         }
+ 
+### Update a specific service [PUT]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+    + job_id:`1` (number, required) - ID of the job in the form of an integer
+ 
++ Request (application/json)
+ 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "deploy_id": "string",
+            "name": "string",
+                ...
         }
-
+ 
 + Response 201 (application/json)
+ 
+     + Headers
+ 
+     + Body
+ 
+             {
+                "_id": "string",
+                "user_id": "string",
+                "deploy_id": "string",
+                "name": "string",
+                 ...
+             }
+ 
++ Response 409 (application/json)
+ 
+     + Body
+             
+             {
+                 "message": "string"
+             }
+ 
+### Delete a specific service [DELETE]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+    + job_id:`1` (number, required) - ID of the job in the form of an integer
+
++ Request (text/plain)
+
++ Response 204 (application/json)
 
     + Headers
 
-            Location: /questions/2
++ Response 404 (application/json)
 
-    + Body
+     + Headers
+
+     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "message": "string"
+            }
+
+
+# Group Builds Management
+
+Builds Management 
+
+## Collections [/users/{user_id}/jobs/{job_id}/versions]
+
+### List versions [GET]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+    + job_id:`1` (number, required) - ID of the version in the form of an integer
+
++ Response 200 (application/json)
+
+            {
+                "versions": [
                     {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
+                        "_id": "string",
+                        "service_id": "string",
+                        "service_name": "string",
+                        "version_log_id": "string",
+                        . . .
+                    },
+                    {
+                        "_id": "string",
+                        "service_id": "string",
+                        "service_name": "string",
+                        "version_log_id": "string",
+                        . . .
+                    },  
+                ]
+            }
+
+
+### Create new version [POST]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+
++ Request (application/json)
+ 
+            {
+                "job_id": "string",
+                "job_name": "string",
+                "name": "string",
+                . . .
+            }
+
++ Response 201 (application/json)
+ 
+     + Headers
+ 
+     + Body
+ 
+             {
+                 "id": "string"
+             }
+ 
++ Response 409 (application/json)
+ 
+     + Body
+             
+             {
+                 "message": "string"
+             }
+
+## Element [/users/{user_id}/jobs/{job_id}/builds{build_id}]
+ 
+### Get a specific build info with build id [GET]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+    + build_id:`1` (number, required) - ID of the build in the form of an integer
+
++ Response 200 (application/json)
+ 
+         {
+            "_id": "string",
+            "job_id": "string",
+            "job_name": "string",
+             ...
+         }
+ 
++ Response 404 (application/json)
+ 
+         {
+             "message": "string"
+         }
+ 
+### cancel a specific build [PATCH]
+
+Cancel a version build
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+    + job_id:`1` (number, required) - ID of the job in the form of an integer
+    + build_id:`1` (number, required) - ID of the service in the form of an integer
+
++ Request (text/plain)
+
++ Response 204 (application/json)
+
+    + Headers
+
++ Response 404 (application/json)
+
+     + Headers
+
+     + Body
+
+            {
+                "message": "string"
+            }
+
+## Version Logs [/{user_id}/versions/{version_id}/logs]
+ 
+### Get a specific log info with version id [GET]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+    + version_id:`1` (number, required) - ID of the version in the form of an integer
+
++ Response 200 (application/json)
+ 
+         {
+            {
+                "logs": "string"
+            }
+            ...
+         }
+
++ Response 404 (application/json)
+ 
+         {
+             "message": "string"
+         }
+
+# Group Resources Management
+
+Resources Management 
+
+## Element [/{user_id}/resources]
+ 
+### Get a specific recource info with user id [GET]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+
++ Response 200 (application/json)
+ 
+         {
+            "user_id": "string",
+            "total_resource": {
+                "memory": 0,
+                "cpu": 0
+            },
+            ...
+         }
+
++ Response 404 (application/json)
+ 
+         {
+             "message": "string"
+         }
+ 
+### Update a specific resource [PUT]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+
++ Request (application/json)
+ 
+        {
+            "user_id": "string",
+            "total_resource": {
+                "memory": 0,
+                "cpu": 0
+            },
+            ...
+        }
+ 
++ Response 201 (application/json)
+ 
+     + Headers
+ 
+     + Body
+ 
+             {
+                "user_id": "string",
+                "total_resource": {
+                    "memory": 0,
+                    "cpu": 0
+                },
+                 ...
+             }
+ 
++ Response 409 (application/json)
+ 
+     + Body
+             
+             {
+                 "message": "string"
+             }
+
+
+# Group Deploys Management
+
+Deploys Management 
+
+## Collection [/{user_id}/deploys]
+
+### Create new deploy [POST]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+
++ Request (application/json)
+ 
+            {
+                "deploy_plans": [
+                    {
+                        "plan_name": "string",
+                        "config": {
+                            "cluster_name": "string",
+                            "cluster_id": "string",
+                            "partition": "string",
+                            "application": "string",
+                            "containers": [
+                                "string"
+                            ]
+                        }
                     }
                 ]
+                . . .
+            }
+
++ Response 201 (application/json)
+ 
+     + Headers
+ 
+     + Body
+ 
+             {
+                 "id": "string"
+             }
+ 
++ Response 409 (application/json)
+ 
+     + Body
+             
+             {
+                 "message": "string"
+             }
+
+## Element [/{user_id}/deploys/{deploy_id}]
+ 
+### Get a specific deploy info with user id [GET]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+    + deploy_id:`1` (number, required) - ID of the deploy in the form of an integer
+
++ Response 200 (application/json)
+ 
+         {
+            "service_id": "string",
+            "deploy_plans": [
+                {
+                    "plan_name": "string",
+                    "config": {
+                        "cluster_name": "string",
+                        "cluster_id": "string",
+                        "partition": "string",
+                        "application": "string",
+                        "containers": [
+                        "string"
+                        ]
+                    }
+                }
+            ]
+            ...
+         }
+
++ Response 404 (application/json)
+ 
+         {
+             "message": "string"
+         }
+ 
+### Delete a specific deploy [DELETE]
+
++ Parameters
+    + user_id:`1` (number, required) - ID of the user in the form of an integer
+    + deploy_id:`1` (number, required) - ID of the deploy in the form of an integer
+
++ Request (text/plain)
+
++ Response 204 (application/json)
+
+    + Headers
+
++ Response 404 (application/json)
+
+     + Headers
+
+     + Body
+
+            {
+                "message": "string"
             }
