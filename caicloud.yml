@@ -10,3 +10,4 @@ integration:
     
 build:
    dockerfile_name: Dockerfile
+   
